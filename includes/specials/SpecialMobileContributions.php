@@ -60,7 +60,9 @@ class SpecialMobileContributions extends SpecialMobileHistory {
 		if ( $par ) {
 			// enter article history view
 			$this->user = User::newFromName( $par, false );
-
+                        if ( $this->user->isHidden() && !$this->getUser()->isAllowed( 'hideuser' ) ) {
+ 			       $this->showPageNotFound();
+                        }
 			$usernameUtils = MediaWikiServices::getInstance()->getUserNameUtils();
 			$userIsIP = ( $usernameUtils->isIP( $par ) || IPUtils::isIPv6( $par ) );
 			if ( $this->user && ( $this->user->idForName() || $userIsIP ) ) {
